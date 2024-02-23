@@ -23,6 +23,6 @@ SO that I can find enjoyable posts that align with my interests.
 - Dotenv
 - JWT
 
-## Useage
+## Usage
 
 Click *placeholder link here* to visit the blog. Just sign up and login to create posts or look through your feed.
