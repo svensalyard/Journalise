@@ -5,8 +5,7 @@ const categoriesSchema = new Schema(
     categoreyName: {
       type: String,
       required: true
-    },
-    Post: [postSchema]
+    }
   },
   {
     toJSON: {
