@@ -6,7 +6,6 @@ const categoriesSchema = new Schema(
       type: String,
       required: true
     },
-    Post: [postSchema]
   },
   {
     toJSON: {
