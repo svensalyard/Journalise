@@ -1,19 +1,18 @@
 const { Schema, model } = require('mongoose');
 
-const categoriesSchema = new Schema(
-  {
-    categoreyName: {
-      type: String,
-      required: true
-    },
+const categoriesSchema = new Schema({
+  categoryName: {
+    type: String,
+    required: true,
   },
-  {
-    toJSON: {
-      getters: true,
-    },
-    id: false,
-  }
-);
+  posts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Post'
+  }]
+}, {
+  toJSON: { getters: true },
+  id: false,
+});
 
 const Categories = model('Categories', categoriesSchema);
 
