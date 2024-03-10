@@ -5,53 +5,87 @@ import { getAllMatchups } from '../utils/api';
 // Uncomment import statements below after building queries and mutations
 // import { useQuery } from '@apollo/client';
 // import { QUERY_MATCHUPS } from '../utils/queries';
+function Journalise() {
+  const [comments, setComments] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-const Home = () => {
-  const [matchupList, setMatchupList] = useState([]);
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const enteredUsername = formData.get('username');
+    const enteredPassword = formData.get('password');
 
-  useEffect(() => {
-    const getMatchupList = async () => {
-      try {
-        const res = await getAllMatchups();
-        if (!res.ok) {
-          throw new Error('No list of matchups');
-        }
-        const matchupList = await res.json();
-        setMatchupList(matchupList);
-      } catch (err) {
-        console.error(err);
-      }
+    if (enteredUsername === 'demo' && enteredPassword === 'demo') {
+      setUsername(enteredUsername);
+      setPassword(enteredPassword);
+      setLoggedIn(true);
+      event.target.reset();
+    } else {
+      alert('Invalid username or password.');
+    }
+  };
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+    setUsername('');
+    setPassword('');
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const newComment = {
+      bookTitle: formData.get('bookTitle'),
+      comment: formData.get('comment'),
+      username: username,
+      date: new Date().toLocaleDateString()
     };
-    getMatchupList();
-  }, []);
+    setComments([...comments, newComment]);
+    event.target.reset();
+  };
 
   return (
-    <div className="card bg-white card-rounded w-50">
-      <div className="card-header bg-dark text-center">
-        <h1>Welcome to Tech Matchup!</h1>
-      </div>
-      <div className="card-body m-5">
-        <h2>Here is a list of matchups you can vote on:</h2>
-        <ul className="square">
-          {matchupList.map((matchup) => {
-            return (
-              <li key={matchup._id}>
-                <Link to={{ pathname: `/matchup/${matchup._id}` }}>
-                  {matchup.tech1} vs. {matchup.tech2}
-                </Link>
-              </li>
-            );
-          })}
+    <div class="container">
+    <h1>Welcome to Journalise</h1>
+    {!loggedIn ? (
+      <form onSubmit={handleLogin}>
+        <h2>Login</h2>
+        <label htmlFor="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+        <label htmlFor="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+        <button type="submit">Login</button>
+      </form>
+    ) : (
+      <div>
+        <h2>Welcome, {username}!</h2>
+        <button onClick={handleLogout}>Logout</button>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="bookTitle">Book Title:</label>
+          <input type="text" id="bookTitle" name="bookTitle" required />
+          <label htmlFor="comment">Comment:</label>
+          <textarea id="comment" name="comment" required></textarea>
+          <button type="submit">Add Comment</button>
+        </form>
+        <hr />
+        <h3>Book Comments Feed:</h3>
+        <ul>
+          {comments.map((comment, index) => (
+            <li key={index}>
+              <h4>{comment.bookTitle}</h4>
+              <p>Comment: {comment.comment}</p>
+              <p>Username: {comment.username}</p>
+              <p>Date: {comment.date}</p>
+            </li>
+          ))}
         </ul>
       </div>
-      <div className="card-footer text-center m-3">
-        <h2>Ready to create a new matchup?</h2>
-        <Link to="/matchup">
-          <button className="btn btn-lg btn-danger">Create Matchup!</button>
-        </Link>
-      </div>
-    </div>
+    )}
+  </div>
+  
   );
-};
+}
 
-export default Home;
+export default Journalise;

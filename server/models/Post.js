@@ -15,7 +15,11 @@ const postSchema = new Schema(
     username: {
       type: String,
       required: true
+<<<<<<< HEAD
     }
+=======
+    },
+>>>>>>> 43cfa6cb14bdbc720f633ba84315a7f654502274
   }
 );
 
