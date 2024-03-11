@@ -1,5 +1,5 @@
-export const getAllMatchups = () => {
-  return fetch('/api/matchup', {
+export const getAllUsers = () => {
+  return fetch('/api/user', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -7,38 +7,132 @@ export const getAllMatchups = () => {
   });
 };
 
-export const createMatchup = (matchupData) => {
-  return fetch('/api/matchup', {
+export const createUser = (userData) => {
+  return fetch('/api/user', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(matchupData),
+    body: JSON.stringify(userData),
   });
 };
 
-export const getMatchup = (matchupId) => {
-  return fetch(`/api/matchup/${matchupId}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-};
-
-export const createVote = (voteData) => {
-  return fetch(`/api/matchup/${voteData}`, {
+export const updateUser = (userData) => {
+  return fetch('/api/user', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(voteData),
+    body: JSON.stringify(userData),
   });
 };
 
-export const getAllTech = () => {
-  return fetch('/api/tech', {
+export const getSingleUser = (userId) => {
+  return fetch(`/api/user/${userId}`, {
     method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const deleteSingleUser = (userId) => {
+  return fetch(`/api/user/${userId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const createPost = (postData) => {
+  return fetch(`/api/post/${postData}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(postData),
+  });
+};
+
+export const getAllPosts = () => {
+  return fetch('/api/post', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const getSinglePost = () => {
+  return fetch(`/api/post/${postId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const updatePost = (postData) => {
+  return fetch('/api/post', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(postData),
+  });
+};
+
+export const deleteSinglePost = (postId) => {
+  return fetch(`/api/post/${postId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const createCategory = (categoryData) => {
+  return fetch(`/api/category/${categoryData}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(categoryData),
+  });
+};
+
+export const getAllCategories = () => {
+  return fetch('/api/category', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const getSingleCategory = () => {
+  return fetch(`/api/category/${categoryId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const updateCategory = (categoryData) => {
+  return fetch('/api/category', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(categoryData),
+  });
+};
+
+export const deleteSingleCategory = (categoryId) => {
+  return fetch(`/api/category/${categoryId}`, {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
