@@ -1,67 +1,78 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
+  line-height: 1.6; 
 }
 
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
+/* Style for the navbar */
+.navbar {
+  background-color: #333; 
+  color: white;
+  padding: 10px 20px; 
   display: flex;
   align-items: center;
+  justify-content: space-between; 
 }
 
-h1 {
-  margin-right: auto;
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin-right: 15px; 
 }
 
-form {
-  margin-top: 20px;
-  width: 50%;
+.navbar a:hover {
+  color: #ddd; 
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
+.search-bar {
+  padding: 8px 15px;
+  width: 300px; 
+  border: none;
+  border-radius: 5px;
 }
 
-input[type="text"],
-input[type="password"],
-textarea {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
+/* Style for buttons */
+.btn {
+  padding: 10px 15px;
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  text-transform: uppercase; /* Capitalize button text */
 }
 
-button:hover {
-  background-color: #0056b3;
+.btn:hover {
+  background-color: #0056b3; /* Darker shade on hover */
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+/* Main content area */
+.main-content {
+  padding: 20px; 
+  background-color: #f4f4f4; 
 }
 
-li {
-  border-bottom: 1px solid #ccc;
-  padding: 10px 0;
+/* Style for the feed, about, etc. */
+.section {
+  margin-bottom: 20px; 
 }
 
-li:last-child {
-  border-bottom: none;
+/* Description section */
+.description-section {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px; 
 }
 
-hr {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border: 0;
-  border-top: 1px solid #ccc;
+/* Blog feed styles */
+.blog-feed {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
 }
