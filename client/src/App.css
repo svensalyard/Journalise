@@ -5,74 +5,57 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6; 
+  background-color: #474747; /* Grey background for the entire page */
 }
 
-/* Style for the navbar */
+.container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
 .navbar {
-  background-color: #333; 
-  color: white;
-  padding: 10px 20px; 
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: space-between; 
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  margin: 0; /* Remove default margin */
+  box-sizing: border-box; /* Include padding and border in width calculation */
 }
 
-.navbar a {
+.navbar-left ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-left li {
+  display: inline;
+  margin-right: 10px;
+}
+
+.navbar-left a {
   color: white;
   text-decoration: none;
-  margin-right: 15px; 
+  font-size: 18px;
 }
 
-.navbar a:hover {
-  color: #ddd; 
+.navbar-center h1 {
+  margin: 0;
+  font-size: 24px;
 }
 
-.search-bar {
-  padding: 8px 15px;
-  width: 300px; 
-  border: none;
-  border-radius: 5px;
-}
-
-/* Style for buttons */
-.btn {
-  padding: 10px 15px;
-  background-color: #007bff; /* Bootstrap primary color */
+.navbar-right button {
+  background-color: #4caf50;
   color: white;
   border: none;
-  border-radius: 5px;
+  padding: 10px 20px;
   cursor: pointer;
-  text-transform: uppercase; /* Capitalize button text */
+  font-size: 16px;
 }
 
-.btn:hover {
-  background-color: #0056b3; /* Darker shade on hover */
-}
-
-/* Main content area */
-.main-content {
-  padding: 20px; 
-  background-color: #f4f4f4; 
-}
-
-/* Style for the feed, about, etc. */
-.section {
-  margin-bottom: 20px; 
-}
-
-/* Description section */
-.description-section {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 20px; 
-}
-
-/* Blog feed styles */
-.blog-feed {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
+.navbar-right button:hover {
+  background-color: #45a049;
 }
