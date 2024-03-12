@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { Card, CardHeader, CardBody, CardFooter, SimpleGrid, Heading, Text, Button, StackDivider, Stack, Box, BiLike, IconButton, Flex, Avatar, Image, BiChat, BiShare } from "@chakra-ui/react";
+import { Card, CardHeader, CardBody, CardFooter, Heading, Text, Button, Box, BiLike, Flex, BiChat, BiShare } from "@chakra-ui/react";
 
 function Journalise() {
-	const { isLoggedIn, logout, user } = useContext(AuthContext);
+	const { isLoggedIn, logout, } = useContext(AuthContext);
 	const [post, setPost] = useState([]);
 	setPost((prevPost) => [...prevPost]);
 
@@ -45,6 +45,7 @@ function Journalise() {
 
 			<main>
 				<div className="Container">
+					<div>
 					{post.map((post, index) => (
 						<Card maxW="md" key={index}>
 							<CardHeader>
@@ -86,6 +87,7 @@ function Journalise() {
 							</CardFooter>
 						</Card>
 					))}
+					</div>
 				</div>
 			</main>
 		</div>
