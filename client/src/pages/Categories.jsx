@@ -26,6 +26,7 @@ function Journalise() {
           <ul>
             <li><Link to="/popular">Popular</Link></li>
             <li><Link to="/categories">Categories</Link></li>
+						<li><Link to="/profile">Your Profile</Link></li>
           </ul>
         </div>
         <div className="navbar-center">
