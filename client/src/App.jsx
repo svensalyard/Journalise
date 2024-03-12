@@ -1,47 +1,31 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import Navbar from './components/Navbar';
-import { AuthProvider } from './context/AuthContext';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Home from './components/Home';
+import { Route, Routes } from 'react-router-dom';
+import { ChakraProvider, Container } from '@chakra-ui/react';
 import './App.css';
 
-const httpLink = createHttpLink({
-  uri: '/graphql',
-});
+import { AuthProvider } from './context/AuthContext';
+import AuthRoute from './routes/AuthRoutes';
 
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('token');
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
-});
-
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-});
+import Home from './pages/Home';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import SinglePost from './components/Post';
 
 function App() {
   return (
-    <ApolloProvider client={client}>
+    <ChakraProvider>
       <AuthProvider>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
+        <Container maxW="container.xl">
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path="/login" element={<AuthRoute element={<Login />} />} />
+            <Route path="/signup" element={<AuthRoute element={<Signup />} />} />
+            <Route path="/posts/:postId" element={<SinglePost />} />
+          </Routes>
+        </Container>
       </AuthProvider>
-    </ApolloProvider>
+    </ChakraProvider>
   );
 }
-
 
 export default App;
