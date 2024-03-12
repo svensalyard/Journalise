@@ -35,7 +35,7 @@ function Journalise() {
       
       {isLoggedIn ? (
         <div>
-                    <div>
+        <div>
     <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
     {category.map((category, index) => (
   <Card key={index}>
