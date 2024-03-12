@@ -1,37 +1,10 @@
-import { useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllMatchups } from '../utils/api';
+import { AuthContext } from '../context/AuthContext';
 
-// Uncomment import statements below after building queries and mutations
-// import { useQuery } from '@apollo/client';
-// import { QUERY_MATCHUPS } from '../utils/queries';
 function Journalise() {
+  const { isLoggedIn, logout, user } = useContext(AuthContext);
   const [comments, setComments] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const enteredUsername = formData.get('username');
-    const enteredPassword = formData.get('password');
-
-    if (enteredUsername === 'demo' && enteredPassword === 'demo') {
-      setUsername(enteredUsername);
-      setPassword(enteredPassword);
-      setLoggedIn(true);
-      event.target.reset();
-    } else {
-      alert('Invalid username or password.');
-    }
-  };
-
-  const handleLogout = () => {
-    setLoggedIn(false);
-    setUsername('');
-    setPassword('');
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -39,10 +12,10 @@ function Journalise() {
     const newComment = {
       bookTitle: formData.get('bookTitle'),
       comment: formData.get('comment'),
-      username: username,
-      date: new Date().toLocaleDateString()
+      username: user ? user.username : 'Anonymous', // Adjust as needed
+      date: new Date().toLocaleDateString(),
     };
-    setComments([...comments, newComment]);
+    setComments(prevComments => [...prevComments, newComment]);
     event.target.reset();
   };
 
@@ -51,33 +24,28 @@ function Journalise() {
       <nav className="navbar">
         <div className="navbar-left">
           <ul>
-            <li><a href="#">Popular</a></li>
-            <li><a href="#">Categories</a></li>
+            <li><Link to="/popular">Popular</Link></li>
+            <li><Link to="/categories">Categories</Link></li>
           </ul>
         </div>
         <div className="navbar-center">
           <h1>Journalise</h1>
         </div>
         <div className="navbar-right">
-          {!loggedIn ? (
-            <button onClick={handleLogin}>Sign-Up/Login</button>
+          {!isLoggedIn ? (
+            <>
+              <Link to="/login"><button>Login</button></Link>
+              <Link to="/signup"><button>Sign Up</button></Link>
+            </>
           ) : (
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={logout}>Logout</button>
           )}
         </div>
       </nav>
-      {!loggedIn ? (
-        <form onSubmit={handleLogin}>
-          <h2>Login</h2>
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" name="username" required />
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password" required />
-          <button type="submit">Login</button>
-        </form>
-      ) : (
+      
+      {isLoggedIn ? (
         <div>
-          <h2>Welcome, {username}!</h2>
+          <h2>Welcome, {user.username}!</h2>
           <form onSubmit={handleSubmit}>
             <label htmlFor="bookTitle">Book Title:</label>
             <input type="text" id="bookTitle" name="bookTitle" required />
@@ -98,6 +66,8 @@ function Journalise() {
             ))}
           </ul>
         </div>
+      ) : (
+        <div>Please <Link to="/login">log in</Link> or <Link to="/signup">sign up</Link> to post comments.</div>
       )}
     </div>
   );
