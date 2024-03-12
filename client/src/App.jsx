@@ -10,6 +10,9 @@ import Home from './pages/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import SinglePost from './components/Post';
+import Categories from './pages/Categories';
+import Popular from './pages/Popular';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
             <Route path="/login" element={<AuthRoute element={<Login />} />} />
             <Route path="/signup" element={<AuthRoute element={<Signup />} />} />
             <Route path="/posts/:postId" element={<SinglePost />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/popular" element={<Popular />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Container>
       </AuthProvider>
