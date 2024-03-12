@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { Card, CardHeader, CardBody, CardFooter, Heading, Text, Button, Box, BiLike, Flex, BiChat, BiShare } from "@chakra-ui/react";
+import { Card, CardHeader, CardBody, CardFooter, Heading, Text, Button, Box, Flex } from "@chakra-ui/react";
+import { BiLike, BiChat, BiShare } from "react-icons/bi"; // Corrected import
 
 function Journalise() {
-	const { isLoggedIn, logout, } = useContext(AuthContext);
-	const [post, setPost] = useState([]);
-	setPost((prevPost) => [...prevPost]);
+    const { isLoggedIn, logout } = useContext(AuthContext);
+    const [post, setPost] = useState([]);
 
-	return (
-		<div className="container">
+    return (
+        <div className="container">
 			<nav className="navbar">
 				<div className="navbar-left">
 					<ul>
@@ -90,8 +90,8 @@ function Journalise() {
 					</div>
 				</div>
 			</main>
-		</div>
-	);
+			</div>
+    );
 }
 
 export default Journalise;
