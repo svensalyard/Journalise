@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from '../utils/state';
 import { AuthContext } from '../context/AuthContext';
-import { ADD_USER } from '../utils/mutations'; 
+import { ADD_USER } from '../utils/mutations';
 import {
   Button,
   FormControl,
@@ -12,12 +13,15 @@ import {
   Container,
   Heading,
   Box,
+  VStack,
 } from '@chakra-ui/react';
 
 function Signup() {
-  const context = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const [errors, setErrors] = useState({});
-  const { onChange, onSubmit, values } = useForm(signupUser, {
+  const navigate = useNavigate();
+
+  const { onChange, onSubmit, values } = useForm(() => signupUserCallback(), {
     username: '',
     email: '',
     password: '',
@@ -26,90 +30,97 @@ function Signup() {
 
   const [addUser, { loading }] = useMutation(ADD_USER, {
     update(_, { data: { addUser: { token, user } } }) {
-      context.login(user);
-      localStorage.setItem('jwtToken', token);
-      // Update navigation using useNavigate if using react-router-dom v6
+      login(token); 
+      localStorage.setItem('jwtToken', token); 
+      navigate('/'); 
     },
     onError(err) {
+     
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
     variables: values,
   });
 
-  function signupUser() {
+  function signupUserCallback() {
     addUser();
   }
 
   return (
     <Container centerContent>
       <Box padding="4" maxWidth="md" width="100%">
-        <Heading marginBottom="6">Signup</Heading>
-        <form onSubmit={onSubmit} noValidate>
-          <FormControl isInvalid={errors.username}>
-            <FormLabel htmlFor="username">Username</FormLabel>
-            <Input
-              id="username"
-              type="text"
-              placeholder="Username"
-              name="username"
-              value={values.username}
-              onChange={onChange}
-            />
-            <FormErrorMessage>{errors.username}</FormErrorMessage>
-          </FormControl>
+        <VStack spacing={6}>
+          <Heading>Signup</Heading>
+          <form onSubmit={onSubmit} noValidate>
+            <FormControl isInvalid={errors.username} id="username">
+              <FormLabel>Username</FormLabel>
+              <Input
+                placeholder="Your username"
+                name="username"
+                value={values.username}
+                onChange={onChange}
+              />
+              {errors.username && <FormErrorMessage>{errors.username}</FormErrorMessage>}
+            </FormControl>
 
-          <FormControl isInvalid={errors.email} marginTop="4">
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <Input
-              id="email"
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={values.email}
-              onChange={onChange}
-            />
-            <FormErrorMessage>{errors.email}</FormErrorMessage>
-          </FormControl>
+            <FormControl isInvalid={errors.email} id="email" mt={4}>
+              <FormLabel>Email</FormLabel>
+              <Input
+                placeholder="Your email address"
+                name="email"
+                type="email"
+                value={values.email}
+                onChange={onChange}
+              />
+              {errors.email && <FormErrorMessage>{errors.email}</FormErrorMessage>}
+            </FormControl>
 
-          <FormControl isInvalid={errors.password} marginTop="4">
-            <FormLabel htmlFor="password">Password</FormLabel>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={values.password}
-              onChange={onChange}
-            />
-            <FormErrorMessage>{errors.password}</FormErrorMessage>
-          </FormControl>
+            <FormControl isInvalid={errors.password} id="password" mt={4}>
+              <FormLabel>Password</FormLabel>
+              <Input
+                placeholder="Choose a password"
+                name="password"
+                type="password"
+                value={values.password}
+                onChange={onChange}
+              />
+              {errors.password && <FormErrorMessage>{errors.password}</FormErrorMessage>}
+            </FormControl>
 
-          <FormControl isInvalid={errors.confirmPassword} marginTop="4">
-            <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
-            <Input
-              id="confirmPassword"
-              type="password"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              value={values.confirmPassword}
-              onChange={onChange}
-            />
-            <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>
-          </FormControl>
+            <FormControl isInvalid={errors.confirmPassword} id="confirmPassword" mt={4}>
+              <FormLabel>Confirm Password</FormLabel>
+              <Input
+                placeholder="Confirm your password"
+                name="confirmPassword"
+                type="password"
+                value={values.confirmPassword}
+                onChange={onChange}
+              />
+              {errors.confirmPassword && <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>}
+            </FormControl>
 
+            <Button
+              mt={4}
+              colorScheme="blue"
+              isLoading={loading}
+              type="submit"
+              width="full"
+            >
+              Signup
+            </Button>
+          </form>
           <Button
-            type="submit"
-            colorScheme="blue"
-            marginTop="6"
-            isLoading={loading}
-            loadingText="Submitting"
+            mt={4}
+            variant="outline"
+            width="full"
+            onClick={() => navigate('/')}
           >
-            Signup
+            Back to Home
           </Button>
-        </form>
+        </VStack>
       </Box>
     </Container>
   );
 }
 
 export default Signup;
+
