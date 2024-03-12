@@ -30,10 +30,6 @@ body {
   z-index: 999; /* Ensure the navbar appears above other content */
 }
 
-.navbar-left {
-  flex: 1; /* Take up remaining space */
-}
-
 .navbar-left ul {
   list-style-type: none;
   margin: 0;
@@ -41,8 +37,10 @@ body {
 }
 
 .navbar-left li {
-  display: inline;
   margin-right: 10px;
+  margin-left: 10px;
+  padding: 10px;
+  display: inline;
 }
 
 .navbar-left a {
