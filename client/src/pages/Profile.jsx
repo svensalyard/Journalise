@@ -1,24 +1,12 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { Card, CardHeader, CardBody, CardFooter, SimpleGrid, Heading, Text, Button, StackDivider, Stack, Box, BiLike, IconButton, Flex, Avatar, Image, BiChat, BiShare } from "@chakra-ui/react";
 
 function Journalise() {
 	const { isLoggedIn, logout, user } = useContext(AuthContext);
-	const [comments, setComments] = useState([]);
-
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		const formData = new FormData(event.target);
-		const newComment = {
-			bookTitle: formData.get("bookTitle"),
-			comment: formData.get("comment"),
-			username: user ? user.username : "Anonymous", // Adjust as needed
-			date: new Date().toLocaleDateString(),
-		};
-		setComments((prevComments) => [...prevComments, newComment]);
-		event.target.reset();
-	};
-
+    const [post, setPost] = useState([]);
+    setPost((prevPost) => [...prevPost]);
 	return (
 	<div className="container">
 		<nav className="navbar">
@@ -46,27 +34,44 @@ function Journalise() {
       
       {isLoggedIn ? (
         <div>
-          <h2>Welcome, {user.username}!</h2>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="bookTitle">Book Title:</label>
-            <input type="text" id="bookTitle" name="bookTitle" required />
-            <label htmlFor="comment">Comment:</label>
-            <textarea id="comment" name="comment" required></textarea>
-            <button type="submit">Add Comment</button>
-          </form>
-          <hr />
-          <h3>Book Comments Feed:</h3>
-          <ul>
-            {comments.map((comment, index) => (
-              <li key={index}>
-                <h4>{comment.bookTitle}</h4>
-                <p>Comment: {comment.comment}</p>
-                <p>Username: {comment.username}</p>
-                <p>Date: {comment.date}</p>
-              </li>
-            ))}
-          </ul>
+{user.map((user) => (
+<Card maxW='md' key={user}>
+  <CardHeader>
+    <Flex spacing='4'>
+      <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+
+        <Box>
+          <Heading size='sm'>{user.username}</Heading>
+          <Text>Joined: {user.date}</Text>
+        </Box>
+      </Flex>
+    </Flex>
+  </CardHeader>
+  <CardBody>
+    <Text>
+    {user.description}
+    </Text>
+  </CardBody>
+</Card>
+))}
+    <div>
+    <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
+    {post.map((post, index) => (
+  <Card key={index}>
+    <CardHeader>
+      <Heading size='md'>{post.title}</Heading>
+    </CardHeader>
+    <CardBody>
+      <Text>{post.text}</Text>
+    </CardBody>
+  </Card>
+    ))}
+</SimpleGrid>
+    </div>
         </div>
+
+        
       ) : (
         <div>Please <Link to="/login">log in</Link> or <Link to="/signup">sign up</Link> to post comments.</div>
       )}
