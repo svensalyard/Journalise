@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { Card, CardHeader, CardBody, CardFooter, SimpleGrid, Heading, Text, Button, StackDivider, Stack, Box, BiLike, IconButton, Flex, Avatar, Image, BiChat, BiShare } from "@chakra-ui/react";
+import { Card, CardHeader, CardBody, SimpleGrid, Heading, Text, Box,  Flex, Avatar, } from "@chakra-ui/react";
 
 function Journalise() {
 	const { isLoggedIn, logout, user } = useContext(AuthContext);
@@ -34,6 +34,7 @@ function Journalise() {
       
       {isLoggedIn ? (
         <div>
+          <div>
 {user.map((user) => (
 <Card maxW='md' key={user}>
   <CardHeader>
@@ -55,6 +56,7 @@ function Journalise() {
   </CardBody>
 </Card>
 ))}
+</div>
     <div>
     <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
     {post.map((post, index) => (

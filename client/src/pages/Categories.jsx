@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Card, CardHeader, CardBody, CardFooter, SimpleGrid, Heading, Text, Button } from '@chakra-ui/react';
 
 function Journalise() {
-	const { isLoggedIn, logout, user } = useContext(AuthContext);
+	const { isLoggedIn, logout, } = useContext(AuthContext);
   const [category, setCategory] = useState([]);
   setCategory((prevCategory) => [...prevCategory]);
 
