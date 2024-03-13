@@ -14,10 +14,9 @@ import Home from './pages/Home';
 import Categories from './pages/Categories';
 import Popular from './pages/Popular';
 import Profile from './pages/Profile';
-import PostForm from './pages/PostForm';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import SinglePost from './components/Post';
+import PostForm from './pages/PostForm';
 
 // Apollo Client setup
 const httpLink = createHttpLink({
@@ -53,7 +52,6 @@ function App() {
               <Route path="/postform" element={<PostForm />} />
               <Route path="/login" element={<AuthRoute element={<Login />} />} />
               <Route path="/signup" element={<AuthRoute element={<Signup />} />} />
-              <Route path="/posts/:postId" element={<SinglePost />} />
             </Routes>
           </Container>
         </AuthProvider>
