@@ -35,10 +35,25 @@ function Journalise() {
       
       {isLoggedIn ? (
         <div>
-        <div>
+
+        </div>
+      ) : (
+        <div>Please <Link to="/login">log in</Link> or <Link to="/signup">sign up</Link> to post comments.</div>
+      )}
+    <div>
+    </div>
+
+<div>
+
+<div className="header">
+						<Heading as='h2' size='2xl'>
+						All Categories:
+						</Heading>
+					</div>
+
     <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
     {category.map((category, index) => (
-  <Card key={index}>
+  <Card key={index} backgroundColor='#BEBDB8'>
     <CardHeader>
       <Heading size='md'>{category.name}</Heading>
     </CardHeader>
@@ -51,13 +66,8 @@ function Journalise() {
   </Card>
     ))}
 </SimpleGrid>
-    </div>
-        </div>
-      ) : (
-        <div>Please <Link to="/login">log in</Link> or <Link to="/signup">sign up</Link> to post comments.</div>
-      )}
-    <div>
-    </div>
+</div>
+
   </div>
 
 
