@@ -25,7 +25,7 @@ function Journalise() {
 					</ul>
 				</div>
 				<div className="navbar-center">
-					<h1>Journalise</h1>
+					<h1><Link to="/">Journalise</Link></h1>
 				</div>
 				<div className="navbar-right">
 					{!isLoggedIn ? (
