@@ -88,6 +88,20 @@ const resolvers = {
       }
       throw new AuthenticationError("Not authenticated");
     },
+    createPost: async (_, { body, title }, context) => {
+      if (!context.user) throw new AuthenticationError('You must be logged in to create a post');
+    
+      // Assuming you have a Post model similar to the User model
+      const newPost = new Post({
+        body,
+        title,
+        username: context.user.username,
+        createdAt: new Date().toISOString()
+      });
+    
+      const post = await newPost.save();
+      return post;
+    },
   },
 };
 
