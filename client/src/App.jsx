@@ -5,18 +5,16 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@ap
 import { setContext } from '@apollo/client/link/context';
 import './App.css';
 
-// Import context and route components
 import { AuthProvider } from './context/AuthContext';
 import AuthRoute from './routes/AuthRoutes';
 
-// Import page and component modules
 import Home from './pages/Home';
 import Categories from './pages/Categories';
 import Popular from './pages/Popular';
 import Profile from './pages/Profile';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import PostForm from './pages/PostForm';
+import PostForm from './components/PostForm';
 
 // Apollo Client setup
 const httpLink = createHttpLink({
