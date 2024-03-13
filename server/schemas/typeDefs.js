@@ -29,6 +29,17 @@ const typeDefs = `
 		me: User
     users: [User]
 	}
+	
+	type Mutation {
+		createPost(body: String!, title: String!): Post
+	  }
+	type Post {
+		id: ID!
+		body: String!
+		title: String!
+		createdAt: String!
+		username: String! 
+	  }
 
 	type Mutation {
 		login(username: String!, password: String!): Auth
