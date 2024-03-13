@@ -1,37 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import { Button, Text } from '@chakra-ui/react';
+import React from 'react';
+import { Button, useToast } from '@chakra-ui/react';
 import { FaHeart } from 'react-icons/fa';
-import { LIKE_POST } from '../utils/mutations';
 
-function LikeButton({ user, post: { id, likeCount, likes } }) {
-  const [liked, setLiked] = useState(false);
+const toggleLike = (postId) => {
+  console.log('Toggling like for post:', postId);
+  
+};
 
-  useEffect(() => {
-    if (user && likes.find((like) => like.username === user.username)) {
-      setLiked(true);
-    } else {
-      setLiked(false);
+const LikeButton = ({ user, post, icon }) => {
+  const toast = useToast();
+  const isLiked = post.likes.some(like => like.username === user?.username);
+
+  const handleLike = () => {
+    if (!user) {
+      toast({
+        title: 'Please log in to like posts.',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
     }
-  }, [user, likes]);
-
-  const [likePost] = useMutation(LIKE_POST, {
-    variables: { postId: id },
-    
-  });
+    toggleLike(post.id);
+   
+  };
 
   return (
-    <Button 
-      as={user ? Button : Link} 
-      to={!user && "/login"} 
-      leftIcon={<FaHeart />} 
-      colorScheme={liked ? "red" : "gray"} 
-      onClick={likePost}
-    >
-      {liked ? 'Unlike' : 'Like'} ({likeCount})
+    <Button onClick={handleLike} leftIcon={icon} colorScheme={isLiked ? 'red' : 'gray'}>
+      {isLiked ? 'Unlike' : 'Like'} {post.likeCount}
     </Button>
   );
-}
+};
 
 export default LikeButton;

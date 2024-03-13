@@ -2,41 +2,32 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
-
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Check for an existing token in localStorage when the component mounts
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token'); 
     if (token) {
-      setIsLoggedIn(true);
-      // Optionally decode the token to set the user details
+      
+      setUser({ username: "ExampleUser" }); 
     }
   }, []);
 
-  const login = (token, userDetails) => {
-    localStorage.setItem('token', token);
-    setIsLoggedIn(true);
-    setUser(userDetails); // Set user details based on your application needs
+  const login = (userData) => {
+    localStorage.setItem('token', userData.token); 
+    setUser(userData);
   };
 
   const logout = () => {
     localStorage.removeItem('token');
-    setIsLoggedIn(false);
     setUser(null);
   };
 
-  const value = {
-    isLoggedIn,
-    user,
-    login,
-    logout,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, isLoggedIn: !!user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
+
+export const useAuth = () => useContext(AuthContext);

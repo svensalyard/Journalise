@@ -1,78 +1,31 @@
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useQuery } from '@apollo/client';
+import { Box, Text, VStack } from '@chakra-ui/react';
+import Navbar from '../components/Navbar';
 import { AuthContext } from '../context/AuthContext';
+import PostCard from '../components/PostCard';
+import PostForm from '../components/PostForm';
+import { FETCH_POSTS_QUERY } from '../utils/queries';
 
 function Journalise() {
-  const { isLoggedIn, logout, user } = useContext(AuthContext);
-  const [comments, setComments] = useState([]);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const newComment = {
-      bookTitle: formData.get('bookTitle'),
-      comment: formData.get('comment'),
-     
-      username: user ? user.username : 'Anonymous',
-      date: new Date().toLocaleDateString(),
-    };
-    setComments((prevComments) => [...prevComments, newComment]);
-    event.target.reset();
-  };
+  const { user } = useContext(AuthContext);
+  const { loading, data: { getPosts: posts } = {} } = useQuery(FETCH_POSTS_QUERY);
 
   return (
-    <div className="container">
-      <nav className="navbar">
-        <div className="navbar-left">
-          <ul>
-            <li><Link to="/popular">Popular</Link></li>
-            <li><Link to="/categories">Categories</Link></li>
-            <li><Link to="/profile">Your Profile</Link></li>
-          </ul>
-        </div>
-        <div className="navbar-center">
-          <h1>Journalise</h1>
-        </div>
-        <div className="navbar-right">
-          {!isLoggedIn ? (
-            <>
-              <Link to="/login"><button>Login</button></Link>
-              <Link to="/signup"><button>Sign Up</button></Link>
-            </>
-          ) : (
-            <button onClick={logout}>Logout</button>
-          )}
-        </div>
-      </nav>
-      
-      {isLoggedIn ? (
-        <div>
-          {/* Safe access to `user.username` */}
-          <h2>Welcome, {user ? user.username : 'Guest'}!</h2>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="bookTitle">Book Title:</label>
-            <input type="text" id="bookTitle" name="bookTitle" required />
-            <label htmlFor="comment">Comment:</label>
-            <textarea id="comment" name="comment" required></textarea>
-            <button type="submit">Add Comment</button>
-          </form>
-          <hr />
-          <h3>Book Comments Feed:</h3>
-          <ul>
-            {comments.map((comment, index) => (
-              <li key={index}>
-                <h4>{comment.bookTitle}</h4>
-                <p>Comment: {comment.comment}</p>
-                <p>Username: {comment.username}</p>
-                <p>Date: {comment.date}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <Box>
+      <Navbar />
+      <Text fontSize="2xl" pt="60px" my={4}>Recent Posts</Text>
+      {user && <PostForm />}
+      {loading ? (
+        <Text>Loading posts...</Text>
       ) : (
-        <div>Please <Link to="/login">log in</Link> or <Link to="/signup">sign up</Link> to post comments.</div>
+        <VStack spacing={8}>
+          {posts && posts.map(post => (
+            <PostCard key={post.id} post={post} />
+          ))}
+        </VStack>
       )}
-    </div>
+    </Box>
   );
 }
 

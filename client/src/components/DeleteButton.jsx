@@ -1,28 +1,26 @@
-import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { Button, useDisclosure, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, } from '@chakra-ui/react';
-import { DeleteIcon } from '@chakra-ui/icons';
-import { GET_POSTS_QUERY } from '../utils/queries';
-import { DELETE_POST, DELETE_COMMENT } from '../utils/mutations';
+import React from 'react';
+import { IconButton, useDisclosure, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, Button } from '@chakra-ui/react';
+import { FaTrash } from 'react-icons/fa';
 
-function DeleteButton({ postId, commentId, callback }) {
+const deletePost = (postId) => {
+  console.log('Deleting post:', postId);
+};
+
+const DeleteButton = ({ postId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [deletePostOrComment] = useMutation(commentId ? DELETE_COMMENT : DELETE_POST, {
-    variables: { postId, commentId },
-    onCompleted: () => {
-      onClose();
-      if (callback) callback();
-    },
-    refetchQueries: [{ query: GET_POSTS_QUERY }],
-  });
+  const cancelRef = React.useRef();
+
+  const handleDelete = () => {
+    deletePost(postId);
+    onClose();
+    
+  };
 
   return (
     <>
-      <Button leftIcon={<DeleteIcon />} colorScheme="red" onClick={onOpen} size="sm">
-        Delete
-      </Button>
+      <IconButton icon={<FaTrash />} colorScheme="red" onClick={onOpen} />
 
-      <AlertDialog isOpen={isOpen} leastDestructiveRef={undefined} onClose={onClose}>
+      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
@@ -30,14 +28,14 @@ function DeleteButton({ postId, commentId, callback }) {
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure? 
+              Are you sure? You can't undo this action afterwards.
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button onClick={onClose}>
+              <Button ref={cancelRef} onClick={onClose}>
                 Cancel
               </Button>
-              <Button colorScheme="red" onClick={() => deletePostOrComment()} ml={3}>
+              <Button colorScheme="red" onClick={handleDelete} ml={3}>
                 Delete
               </Button>
             </AlertDialogFooter>
@@ -46,6 +44,6 @@ function DeleteButton({ postId, commentId, callback }) {
       </AlertDialog>
     </>
   );
-}
+};
 
 export default DeleteButton;
