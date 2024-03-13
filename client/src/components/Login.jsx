@@ -30,7 +30,7 @@ function Login() {
         update(_, { data: { login: userData } }) {
             console.log('Login data:', userData);
             login(userData.token); 
-            navigate('/'); 
+            navigate('/postform'); 
         },
         onError(err) {
             

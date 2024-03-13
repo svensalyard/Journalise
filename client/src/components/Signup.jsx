@@ -36,7 +36,7 @@ function Signup() {
       
       login(userData.token);
       localStorage.setItem('jwtToken', userData.token);
-      navigate('/'); 
+      navigate('/postform'); 
     },
     onError(err) {
       

@@ -31,7 +31,7 @@ function Journalise() {
           </ul>
         </div>
         <div className="navbar-center">
-          <h1><Link to="/">Journalise</Link></h1>
+          <h1>Journalise</h1>
         </div>
         <div className="navbar-right">
           {!isLoggedIn ? (
@@ -47,7 +47,7 @@ function Journalise() {
       
       {isLoggedIn ? (
         <div>
-        
+          {/* Safe access to `user.username` */}
           <h2>Welcome, {user ? user.username : 'Guest'}!</h2>
           <form onSubmit={handleSubmit}>
             <label htmlFor="bookTitle">Book Title:</label>
