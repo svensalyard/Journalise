@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { Card, CardHeader, CardBody, SimpleGrid, Heading, Text, Box,  Flex, Avatar, } from "@chakra-ui/react";
+import { Card, CardHeader, CardBody, SimpleGrid, Heading, Text, Box,  Flex, Avatar } from "@chakra-ui/react";
 
 function Journalise() {
 	const { isLoggedIn, logout, user } = useContext(AuthContext);
@@ -18,7 +18,7 @@ function Journalise() {
           </ul>
         </div>
         <div className="navbar-center">
-          <h1>Journalise</h1>
+          <h1 ><Link to="/">Journalise</Link></h1>
         </div>
         <div className="navbar-right">
           {!isLoggedIn ? (
