@@ -47,24 +47,20 @@ function Journalise() {
 				<div className="Container">
 					<div>
 					{post.map((post, index) => (
-						<Card maxW="md" key={index}>
+						<Card maxW="" key={index} backgroundColor='#BEBDB8'>---
 							<CardHeader>
 								<Flex spacing="4">
 									<Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-										{/* <Avatar name="Segun Adebayo" src="https://bit.ly/sage-adebayo" /> */}
 										<Box>
-											<Heading size="sm">{post.title}</Heading>
-											<Text>{post.username}</Text>
+											<Heading size="sm">{post.username}</Heading>
 											<Text>{post.date}</Text>
 										</Box>
 									</Flex>
 								</Flex>
 							</CardHeader>
 							<CardBody>
+							<Heading as='h2' size='xl'>{post.title}</Heading>
 								<Text>{post.text}</Text>
-								<Text pt="2" fontSize="sm">
-									{post.date}
-								</Text>
 							</CardBody>
 
 							<CardFooter
