@@ -12,10 +12,11 @@ function Journalise() {
     const newComment = {
       bookTitle: formData.get('bookTitle'),
       comment: formData.get('comment'),
-      username: user ? user.username : 'Anonymous', // Adjust as needed
+     
+      username: user ? user.username : 'Anonymous',
       date: new Date().toLocaleDateString(),
     };
-    setComments(prevComments => [...prevComments, newComment]);
+    setComments((prevComments) => [...prevComments, newComment]);
     event.target.reset();
   };
 
@@ -46,7 +47,8 @@ function Journalise() {
       
       {isLoggedIn ? (
         <div>
-          <h2>Welcome, {user.username}!</h2>
+        
+          <h2>Welcome, {user ? user.username : 'Guest'}!</h2>
           <form onSubmit={handleSubmit}>
             <label htmlFor="bookTitle">Book Title:</label>
             <input type="text" id="bookTitle" name="bookTitle" required />
