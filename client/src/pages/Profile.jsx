@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { Card, CardHeader, CardBody, SimpleGrid, Heading, Text, Box,  Flex, Avatar, } from "@chakra-ui/react";
+import { Card, CardHeader, CardBody, SimpleGrid, Heading, Text, Box,  Flex, Avatar, Image, Stack, CardFooter, Button } from "@chakra-ui/react";
 
 function Journalise() {
 	const { isLoggedIn, logout, user } = useContext(AuthContext);
@@ -71,9 +71,71 @@ function Journalise() {
     ))}
 </SimpleGrid>
     </div>
-        </div>
 
-        
+<div>
+    <div>
+
+<Heading as='h2' size='2xl' className="margin">
+						Your Profile:
+						</Heading>
+            {user.map((user) => (
+<Card
+  direction={{ base: 'column', sm: 'row' }}
+  overflow='hidden'
+  variant='outline'
+  backgroundColor='#BEBDB8'
+  key={user}
+>
+  <Image
+    objectFit='cover'
+    maxW={{ base: '100%', sm: '200px' }}
+    src='https://www.svgrepo.com/show/70679/male-user-shadow.svg'
+    alt='User Profile Image'
+  />
+
+  <Stack>
+    <CardBody>
+      <Heading size='md'>{user.username}</Heading>
+
+      <Text py='2'>
+      Joined: {user.date}
+      </Text>
+    </CardBody>
+
+    <CardFooter>
+      <Link to="/postform">
+      <Button variant='solid' colorScheme='blue'>
+        Create New Post
+      </Button>
+      </Link>
+    </CardFooter>
+  </Stack>
+</Card>
+    ))}
+</div>
+
+<div>
+
+<Heading as='h2' size='xl' className="margin">
+    Your Posts:
+    </Heading>
+    <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
+    {post.map((post, index) => (
+  <Card backgroundColor='#BEBDB8' key={index}>
+    <CardHeader>
+      <Heading size='md'>{post.title}</Heading>
+    </CardHeader>
+    <CardBody>
+      <Text>{post.text}</Text>
+    </CardBody>
+  </Card>
+  ))}
+</SimpleGrid>
+    </div>
+    </div>
+
+
+        </div>
       ) : (
         <div>Please <Link to="/login">log in</Link> or <Link to="/signup">sign up</Link> to post comments.</div>
       )}
