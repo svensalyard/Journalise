@@ -44,10 +44,16 @@ function Journalise() {
 			</nav>
 
 			<main>
-				<div className="Container">
+				<div className="PostsContainer">
+					<div className="header">
+						<Heading as='h2' size='2xl'>
+						All Time Most Popular Posts:
+						</Heading>
+					</div>
 					<div>
 					{post.map((post, index) => (
-						<Card maxW="" key={index} backgroundColor='#BEBDB8'>---
+						<div className="eachPost" key={index}>
+						<Card maxW="" backgroundColor='#BEBDB8'>---
 							<CardHeader>
 								<Flex spacing="4">
 									<Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -82,6 +88,7 @@ function Journalise() {
 								</Button>
 							</CardFooter>
 						</Card>
+					</div>
 					))}
 					</div>
 				</div>

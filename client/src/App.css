@@ -77,3 +77,8 @@ body {
 .eachPost {
   margin: 10px;
 }
+
+.header {
+  margin: 20px;
+  padding: 20px;
+}
