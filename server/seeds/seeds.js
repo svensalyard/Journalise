@@ -9,7 +9,6 @@ db.once('open', async () => {
   await User.deleteMany({});
   await Post.deleteMany({});
 
-
   await User.insertMany(userData);
   console.log('Users seeded!');
 
