@@ -1,14 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { Card, CardHeader, CardBody, CardFooter, Heading, Text, Button, Box, Flex } from "@chakra-ui/react";
-import { BiLike, BiChat, BiShare } from "react-icons/bi"; // Corrected import
+import { BiLike, BiChat, BiShare } from "react-icons/bi";
+import { useQuery } from '@apollo/client';
+import { QUERY_ME } from '../utils/queries';
 
-function Journalise() {
-    const { isLoggedIn, logout } = useContext(AuthContext);
-    const [post, setPost] = useState([]);
+	function Popular() {
+		const { isLoggedIn, logout } = useContext(AuthContext);
+		const { data } = useQuery(QUERY_ME);
+		const userData = data?.me || {};
 
     return (
+		<>
         <div className="container">
 			<nav className="navbar">
 				<div className="navbar-left">
@@ -42,7 +46,6 @@ function Journalise() {
 					)}
 				</div>
 			</nav>
-
 			<main>
 				<div className="PostsContainer">
 					<div className="header">
@@ -51,24 +54,23 @@ function Journalise() {
 						</Heading>
 					</div>
 					<div>
-					{post.map((post, index) => (
-						<div className="eachPost" key={index}>
+					{userData.savedPosts?.map((data) => {
+						<div className="eachPost" key={data._id}>
 						<Card maxW="" backgroundColor='#BEBDB8'>---
 							<CardHeader>
 								<Flex spacing="4">
 									<Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
 										<Box>
-											<Heading size="sm">{post.username}</Heading>
-											<Text>{post.date}</Text>
+											<Heading size="sm">{data.user}</Heading>
+											<Text>{data.date}</Text>
 										</Box>
 									</Flex>
 								</Flex>
 							</CardHeader>
 							<CardBody>
-							<Heading as='h2' size='xl'>{post.title}</Heading>
-								<Text>{post.text}</Text>
+							<Heading as='h2' size='xl'>{data.title}</Heading>
+								<Text>{data.text}</Text>
 							</CardBody>
-
 							<CardFooter
 								justify="space-between"
 								flexWrap="wrap"
@@ -78,7 +80,7 @@ function Journalise() {
 									},
 								}}>
 								<Button flex="1" variant="ghost" leftIcon={<BiLike />}>
-									Likes {post.likes}
+									Likes
 								</Button>
 								<Button flex="1" variant="ghost" leftIcon={<BiChat />}>
 									Comment
@@ -89,12 +91,13 @@ function Journalise() {
 							</CardFooter>
 						</Card>
 					</div>
-					))}
+					})};
 					</div>
 				</div>
 			</main>
 			</div>
+		</>
     );
-}
+};
 
-export default Journalise;
+export default Popular;
