@@ -20,30 +20,36 @@ function Signup() {
   const { login } = useContext(AuthContext);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-
-  const { onChange, onSubmit, values } = useForm(() => signupUserCallback(), {
+  const [values, setValues] = useState({
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
 
+  const onChange = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+  };
+
   const [addUser, { loading }] = useMutation(ADD_USER, {
-    update(_, { data: { addUser: { token, user } } }) {
-      login(token); 
-      localStorage.setItem('jwtToken', token); 
+    update(_, { data: { addUser: userData } }) {
+      
+      login(userData.token);
+      localStorage.setItem('jwtToken', userData.token);
       navigate('/'); 
     },
     onError(err) {
-     
-      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+      
+      console.error(err);
+      setErrors(err.graphQLErrors[0]?.message || 'An error occurred');
     },
     variables: values,
   });
 
-  function signupUserCallback() {
+  const onSubmit = (event) => {
+    event.preventDefault();
     addUser();
-  }
+  };
 
   return (
     <Container centerContent>
@@ -51,7 +57,7 @@ function Signup() {
         <VStack spacing={6}>
           <Heading>Signup</Heading>
           <form onSubmit={onSubmit} noValidate>
-            <FormControl isInvalid={errors.username} id="username">
+            <FormControl isInvalid={!!errors.username} id="username">
               <FormLabel>Username</FormLabel>
               <Input
                 placeholder="Your username"
@@ -62,7 +68,7 @@ function Signup() {
               {errors.username && <FormErrorMessage>{errors.username}</FormErrorMessage>}
             </FormControl>
 
-            <FormControl isInvalid={errors.email} id="email" mt={4}>
+            <FormControl isInvalid={!!errors.email} id="email" mt={4}>
               <FormLabel>Email</FormLabel>
               <Input
                 placeholder="Your email address"
@@ -74,7 +80,7 @@ function Signup() {
               {errors.email && <FormErrorMessage>{errors.email}</FormErrorMessage>}
             </FormControl>
 
-            <FormControl isInvalid={errors.password} id="password" mt={4}>
+            <FormControl isInvalid={!!errors.password} id="password" mt={4}>
               <FormLabel>Password</FormLabel>
               <Input
                 placeholder="Choose a password"
@@ -84,18 +90,6 @@ function Signup() {
                 onChange={onChange}
               />
               {errors.password && <FormErrorMessage>{errors.password}</FormErrorMessage>}
-            </FormControl>
-
-            <FormControl isInvalid={errors.confirmPassword} id="confirmPassword" mt={4}>
-              <FormLabel>Confirm Password</FormLabel>
-              <Input
-                placeholder="Confirm your password"
-                name="confirmPassword"
-                type="password"
-                value={values.confirmPassword}
-                onChange={onChange}
-              />
-              {errors.confirmPassword && <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>}
             </FormControl>
 
             <Button
@@ -123,4 +117,3 @@ function Signup() {
 }
 
 export default Signup;
-

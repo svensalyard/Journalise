@@ -27,10 +27,11 @@ const typeDefs = `
 
 	type Query {
 		me: User
+    users: [User]
 	}
 
 	type Mutation {
-		login(email: String!, password: String!): Auth
+		login(username: String!, password: String!): Auth
 		addUser(username: String!, email: String!, password: String!): Auth
 		savePost(postData: PostInput!): User
 		removePost(postId: ID!): User

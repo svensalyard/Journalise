@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const LOGIN_USER = gql`
-  mutation login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
       token
       user {
         _id
@@ -25,61 +25,26 @@ mutation addUser($username: String!, $email: String!,
   }
 `;
 
-export const SAVE_POST = gql`
-  mutation savePost($postData: PostInput!) {
-    savePost(postData: $postData) {
-      _id
-      username
-      email
-      savedPosts {
-        postId
-        text
-        title
-      }
-    }
+export const CREATE_POST = gql`
+mutation createPost($body: String!, $title: String!) {
+  createPost(body: $body, title: $title) {
+    id
+    body
+    title
+    createdAt
+    username
   }
+}
 `;
 
-export const REMOVE_POST = gql`
-  mutation removeBook($bookId: ID!) {
-    removeBook(bookId: $bookId) {
-      _id
-      username
-      email
-      savedPosts {
-        postId
-        text
-        title
-      }
-    }
-  }
-
-  
-`;
-export const CREATE_COMMENT = gql`
-  mutation createComment($postId: ID!, $body: String!) {
-    createComment(postId: $postId, body: $body) {
+export const EDIT_POST = gql`
+  mutation editPost($postId: ID!, $body: String!, $title: String!) {
+    editPost(postId: $postId, body: $body, title: $title) {
       id
-      comments {
-        id
-        body
-        createdAt
-        username
-      }
-      commentCount
-    }
-  }
-`;
-
-export const LIKE_POST = gql`
-  mutation likePost($postId: ID!) {
-    likePost(postId: $postId) {
-      id
-      likes {
-        id
-        username
-      }
-      likeCount
+      body
+      title
+      createdAt
+      username
     }
   }
 `;
@@ -90,17 +55,3 @@ export const DELETE_POST = gql`
   }
 `;
 
-export const DELETE_COMMENT = gql`
-  mutation DELETE_COMMENT_MUTATION($postId: ID!, $commentId: ID!){
-    deleteComment(postId: $postId, commentId: $commentId){
-      id
-      comments{
-        id
-        username
-        createdAt
-        body
-      }
-      commentCount
-    }
-  }
-`;
